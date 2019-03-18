@@ -14,7 +14,11 @@ systemctl start postfix
 
 curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | bash
 
-EXTERNAL_URL="http://127.0.0.1.nip.io" yum install -y gitlab-ee
+IP=`nmcli d show eth1 | grep -i ip4.address | awk '{ print $2 }' | awk 'BEGIN { FS = "/" } ; { print $1 }'`
+echo $IP
+GITLAB_DOMAIN=$IP.nip.io
+echo $GITLAB_DOMAIN
+EXTERNAL_URL="http://$GITLAB_DOMAIN" yum install -y gitlab-ee
 SCRIPT
 
 Vagrant.configure("2") do |config|
